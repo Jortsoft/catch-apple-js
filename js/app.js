@@ -18,7 +18,6 @@ const gameWidth = domElems.GameScene.getBoundingClientRect().width
 const gameHeight = domElems.GameScene.getBoundingClientRect().height
 let maxHealth = 3
 let objectIntervalVal = null
-let updateAnimTime = null
 let moveObjects = []
 let objectGenerateInterval = 1000
 let generatedObjectCounter = 0
@@ -40,16 +39,6 @@ const defData = () => {
     goAudio(domElems.bgMusic)
     generateHealth()
     moseMove()
-}
-
-// Game Loop
-const update = () => {
-    if (loseGame) return;
-
-    objectMoveDown()
-    catchApple()
-    checkObjectOutside()
-    updateAnimTime = window.requestAnimationFrame(update);
 }
 
 // Custom functions
@@ -126,16 +115,6 @@ const deleteObject = (item) => {
     moveObjects = moveObjects?.filter((apple) => apple.id !== item.id)
     minusHealth()
 }
-const collision = (rect1, rect2) => {
-    if (rect1.x < rect2.x + rect2.width &&
-        rect1.x + rect1.width > rect2.x &&
-        rect1.y < rect2.y + rect2.height &&
-        rect1.y + rect1.height > rect2.y) {
-        return true
-    } else {
-        return false
-    }
-}
 const addScore = () => {
     if (score % 10 === 0) {
         addDifficult()
@@ -166,10 +145,6 @@ const gameOver = () => {
     domElems.loseText.classList.add('show')
     goAudio(domElems.gameOverAudio)
     domElems.bgMusic.pause()
-}
-const goAudio = (audio) => {
-    audio.currentTime = 0;
-    audio.play()
 }
 domElems.enableAudio.addEventListener('click', () => {
     // Audio controller
